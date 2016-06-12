@@ -1,0 +1,100 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:max="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:minHeight="1000dp"
+    android:minWidth="1000dp"
+    android:orientation="vertical"
+    tools:context="com.crossover.jkachmar.auctionawesome.fragments.NewItemFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Item Name : "
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Name your item"
+            android:inputType="textPersonName" />
+
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Description :"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <EditText
+            android:id="@+id/editText2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Describe your item"
+            android:inputType="textMultiLine"
+            android:maxLines="2"
+            android:minLines="1" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Starting Bid :"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <com.crossover.jkachmar.auctionawesome.views.NumberPickerExtended
+                android:id="@+id/numberPicker"
+                max="200"
+                min="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp">
+
+            <Button
+                android:id="@+id/CancelButton"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:text="Cancel" />
+
+            <Button
+                android:id="@+id/CreateButton"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_toEndOf="@id/CancelButton"
+                android:text="Create" />
+
+
+        </RelativeLayout>
+    </LinearLayout>
+
+
+</LinearLayout>
