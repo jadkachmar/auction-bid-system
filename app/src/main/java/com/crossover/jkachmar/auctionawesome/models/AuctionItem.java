@@ -23,8 +23,6 @@ public class AuctionItem implements Serializable{
 
     String currentBidder;
 
-    String status;
-
     public AuctionItem() {
     }
 
@@ -98,13 +96,5 @@ public class AuctionItem implements Serializable{
 
     public void setCurrentBidder(String currentBidder) {
         this.currentBidder = currentBidder;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 }

@@ -50,7 +50,6 @@ public class LoginActivity extends Activity {
                 String userName = userNameText.getText().toString();
                 String password = passwordText.getText().toString();
 
-                //TODO - validations
                 if(userName.isEmpty()){
                     Toast.makeText(getApplicationContext(), "Please enter a username", Toast.LENGTH_LONG).show();
                     return;

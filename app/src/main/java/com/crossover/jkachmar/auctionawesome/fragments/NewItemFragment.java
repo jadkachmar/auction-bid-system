@@ -106,7 +106,16 @@ public class NewItemFragment extends DialogFragment {
 
                 long expiredTime = c.getTime().getTime();
 
-                //TODO - validations
+                if(itemName.isEmpty()){
+                    Toast.makeText(getContext(), "Please enter an item name", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if(hoursStr.isEmpty() && minsStr.isEmpty() && secsStr.isEmpty()){
+                    Toast.makeText(getContext(), "Please enter an expiration date", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
 
                 AuctionItem newItem = new AuctionItem();
                 newItem.setName(itemName);

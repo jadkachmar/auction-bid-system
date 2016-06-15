@@ -4,17 +4,16 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.crossover.jkachmar.auctionawesome.db.dao.base.IUserDAO;
-import com.crossover.jkachmar.auctionawesome.db.provider.DbContentProvider;
+import com.crossover.jkachmar.auctionawesome.db.dao.provider.DBContentProvider;
 import com.crossover.jkachmar.auctionawesome.db.schema.IUserSchema;
 import com.crossover.jkachmar.auctionawesome.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDAO extends DbContentProvider implements IUserSchema, IUserDAO {
+public class UserDAO extends DBContentProvider implements IUserSchema, IUserDAO {
 
     private Cursor cursor;
     private ContentValues initialValues;

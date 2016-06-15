@@ -70,7 +70,7 @@ public class RegistrationTest extends ActivityInstrumentationTestCase2<LoginActi
     }
 
 
-    public void testValidUserRegistration() throws Exception{
+    public void testValidUserRegistration() throws Exception {
         solo.assertCurrentActivity("Wrong activity", LoginActivity.class);
 
         solo.clickOnButton("Register");
@@ -94,6 +94,7 @@ public class RegistrationTest extends ActivityInstrumentationTestCase2<LoginActi
 
         assertTrue(solo.waitForText("User " + "awesomeUser2" + " has been created successfully"));
 
+        //user has been successfully inserted into database
         User newUser = Database.userDAO.fetchUserByName("awesomeUser2");
 
         assertTrue(newUser!=null);

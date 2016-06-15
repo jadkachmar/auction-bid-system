@@ -7,14 +7,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.crossover.jkachmar.auctionawesome.db.dao.base.IAuctionItemDAO;
-import com.crossover.jkachmar.auctionawesome.db.provider.DbContentProvider;
+import com.crossover.jkachmar.auctionawesome.db.dao.provider.DBContentProvider;
 import com.crossover.jkachmar.auctionawesome.db.schema.IAuctionItemSchema;
 import com.crossover.jkachmar.auctionawesome.models.AuctionItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AuctionItemDAO extends DbContentProvider implements IAuctionItemSchema, IAuctionItemDAO {
+public class AuctionItemDAO extends DBContentProvider implements IAuctionItemSchema, IAuctionItemDAO {
 
     private Cursor cursor;
     private ContentValues initialValues;
@@ -177,10 +177,6 @@ public class AuctionItemDAO extends DbContentProvider implements IAuctionItemSch
                 bidderIndex = cursor.getColumnIndexOrThrow(COLUMN_CURRENT_BIDDER);
                 auctionItem.setCurrentBidder(cursor.getString(bidderIndex));
             }
-            if (cursor.getColumnIndex(COLUMN_STATUS) != -1) {
-                statusIndex = cursor.getColumnIndexOrThrow(COLUMN_STATUS);
-                auctionItem.setStatus(cursor.getString(statusIndex));
-            }
         }
         return auctionItem;
     }
@@ -195,7 +191,6 @@ public class AuctionItemDAO extends DbContentProvider implements IAuctionItemSch
         initialValues.put(COLUMN_STARTING_BID, item.getStartingBid());
         initialValues.put(COLUMN_CURRENT_BID, item.getCurrentBid());
         initialValues.put(COLUMN_CURRENT_BIDDER, item.getCurrentBidder());
-        initialValues.put(COLUMN_STATUS, item.getStatus());
     }
 
     private ContentValues getContentValue() {

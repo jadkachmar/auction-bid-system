@@ -30,23 +30,5 @@
             android:padding="1dp"
             android:text="Description" />
 
-        <TextView
-            android:id="@+id/LastBid"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/ItemName"
-            android:layout_below="@+id/ItemDescription"
-            android:padding="1dp"
-            android:textStyle="italic" />
-
-        <TextView
-            android:id="@+id/ExpiresOn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/ItemName"
-            android:layout_below="@id/LastBid"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
-            android:textStyle="italic" />
     </RelativeLayout>
 </LinearLayout>

@@ -55,16 +55,12 @@ public class WonBidsListAdapter extends RecyclerView.Adapter<WonBidsListAdapter.
 
         TextView itemName;
         TextView itemDescription;
-        TextView dateCreated;
-        TextView currentBid;
-        TextView expiresIn;
 
         public DataObjectHolder(View itemView) {
             super(itemView);
 
             itemName = (TextView) itemView.findViewById(R.id.ItemName);
             itemDescription = (TextView) itemView.findViewById(R.id.ItemDescription);
-            currentBid = (TextView) itemView.findViewById(R.id.CurrentBid);
 
             itemView.setOnClickListener(this);
         }
