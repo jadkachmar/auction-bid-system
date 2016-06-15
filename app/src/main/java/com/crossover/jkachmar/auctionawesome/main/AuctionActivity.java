@@ -1,7 +1,12 @@
 package com.crossover.jkachmar.auctionawesome.main;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -16,20 +21,29 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.crossover.jkachmar.auctionawesome.R;
+import com.crossover.jkachmar.auctionawesome.common.AuctionConstants;
+import com.crossover.jkachmar.auctionawesome.fragments.BidsListFragment;
+import com.crossover.jkachmar.auctionawesome.fragments.MyItemsFragment;
 import com.crossover.jkachmar.auctionawesome.fragments.NewItemFragment;
-import com.crossover.jkachmar.auctionawesome.fragments.PlaceholderFragment;
+import com.crossover.jkachmar.auctionawesome.fragments.WonBidsListFragment;
+import com.crossover.jkachmar.auctionawesome.common.GlobalExceptionHandler;
+import com.crossover.jkachmar.auctionawesome.receivers.RecurringTaskReceiver;
+
+import java.util.Calendar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class AuctionActivity extends AppCompatActivity {
 
+    private static final long BOT_AUCTION_INTERVAL = 15 * 1000; //every minute
+
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
-    private SectionsPagerAdapter mSectionsPagerAdapter;
     @Bind(R.id.container)
     ViewPager mViewPager;
+    private SectionsPagerAdapter mSectionsPagerAdapter;
 
     @Bind(R.id.tabs)
     TabLayout tabLayout;
@@ -37,13 +51,34 @@ public class AuctionActivity extends AppCompatActivity {
     @Bind(R.id.fab)
     FloatingActionButton fab;
 
+    private RecurringTaskReceiver recurringReceiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.auction_activity);
         ButterKnife.bind(this);
 
+        Thread.setDefaultUncaughtExceptionHandler(new GlobalExceptionHandler(this));
+
+        initUI();
+        registerReceivers();
+        scheduleRecurringTasks();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ButterKnife.unbind(this);
+
+        unregisterReceivers();
+    }
+
+    private void initUI() {
         setSupportActionBar(toolbar);
+        AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+        params.setScrollFlags(0);
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -77,9 +112,34 @@ public class AuctionActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onBackPressed(){
+    private void registerReceivers() {
+        recurringReceiver = new RecurringTaskReceiver();
+        recurringReceiver.setListener(this);
 
+        IntentFilter recurringIntentFilter = new IntentFilter();
+        recurringIntentFilter.addAction(AuctionConstants.AUCTION_PRIVATE_RECURRING_INTENT_FILTER);
+
+        registerReceiver(recurringReceiver, recurringIntentFilter);
+    }
+
+    private void scheduleRecurringTasks() {
+        Intent recurringIntent = new Intent();
+        recurringIntent.setAction(AuctionConstants.AUCTION_PRIVATE_RECURRING_INTENT_FILTER);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        Calendar c = Calendar.getInstance();
+
+        PendingIntent auctionBotUpdate = PendingIntent.getBroadcast(this, 1, recurringIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), BOT_AUCTION_INTERVAL, auctionBotUpdate);
+    }
+
+    private void unregisterReceivers() {
+        unregisterReceiver(recurringReceiver);
+    }
+
+    public void refreshData() {
+        mSectionsPagerAdapter.refreshData();
     }
 
     @Override
@@ -126,20 +186,29 @@ public class AuctionActivity extends AppCompatActivity {
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
+        private MyItemsFragment myItemsFragment;
+        private BidsListFragment bidsListFragment;
+        private WonBidsListFragment wonBidsListFragment;
+
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
-
         }
 
         @Override
         public Fragment getItem(int position) {
             switch (position) {
-                case 0:
-                    return PlaceholderFragment.newInstance(1);
-                case 1:
-                    return PlaceholderFragment.newInstance(2);
-                case 2:
-                    return PlaceholderFragment.newInstance(3);
+                case 0: {
+                    myItemsFragment = MyItemsFragment.newInstance();
+                    return myItemsFragment;
+                }
+                case 1: {
+                    bidsListFragment = BidsListFragment.newInstance();
+                    return bidsListFragment;
+                }
+                case 2: {
+                    wonBidsListFragment = WonBidsListFragment.newInstance();
+                    return wonBidsListFragment;
+                }
                 default:
                     return null; //or empty fragment
             }
@@ -158,9 +227,14 @@ public class AuctionActivity extends AppCompatActivity {
                 case 1:
                     return "Bid Now!";
                 case 2:
-                    return "Won Items";
+                    return "Won Bids";
             }
             return null;
+        }
+
+        public void refreshData() {
+            myItemsFragment.refreshData();
+            bidsListFragment.refreshData();
         }
     }
 }

@@ -3,6 +3,7 @@
     package="com.crossover.jkachmar.auctionawesome">
 
     <application
+        android:name=".main.AuctionAwesomeApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -11,6 +12,7 @@
         <activity
             android:name=".main.LoginActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,12 +22,14 @@
         <activity
             android:name=".main.RegisterActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.FullScreen"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.FullScreen" />
         />
         <activity
             android:name=".main.AuctionActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         />
     </application>
 
